@@ -28,5 +28,5 @@ class SuperJobAPI(BaseAPI):
         self.url_address = 'https://api.superjob.ru/2.0/vacancies/'
 
     def get_vacancies(self):
-        vacancies_dict = requests.get(self.url_address, headers={'X-Api-App-Id': self.SJ_API_KEY})
+        vacancies_dict = requests.get(self.url_address, headers={'X-Api-App-Id': self.SJ_API_KEY}, params={'count': 100})
         return vacancies_dict.json()
