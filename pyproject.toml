@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "cw-4-job-find"
+version = "0.1.0"
+description = ""
+authors = ["glebokhlopkov <glebka_90@mail.ru>"]
+readme = "README.md"
+packages = [{include = "cw_4_job_find"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
