@@ -1,4 +1,5 @@
 import requests
+import json
 from abc import ABC, abstractmethod
 from class_to_file import SaveToJSONFile
 import os
@@ -18,8 +19,9 @@ class HeadHunterAPI(BaseAPI, SaveToJSONFile):
         SaveToJSONFile.__init__(self)
 
     def get_vacancies(self):
-        vacancies_dict = requests.get(self.url_address)  # headers={'HH-User-Agent': 'MyApp/1.0 (my-app-feedback@example.com)'})
-        return vacancies_dict.text
+        response = requests.get(self.url_address)  # headers={'HH-User-Agent': 'MyApp/1.0 (my-app-feedback@example.com)'})
+        vacancies_dict = json.loads(response.text)
+        return vacancies_dict
 
 
 class SuperJobAPI(BaseAPI, SaveToJSONFile):
@@ -30,5 +32,8 @@ class SuperJobAPI(BaseAPI, SaveToJSONFile):
         SaveToJSONFile.__init__(self)
 
     def get_vacancies(self):
-        vacancies_dict = requests.get(self.url_address, headers={'X-Api-App-Id': self.SJ_API_KEY}, params={'count': 100})
-        return vacancies_dict.text
+        response = requests.get(self.url_address,
+                                headers={'X-Api-App-Id': self.SJ_API_KEY},
+                                params={'count': 100, 'town': 'Москва', 'keywords': 'Python'})
+        vacancies_dict = json.loads(response.text)
+        return vacancies_dict['objects']

@@ -1,9 +1,13 @@
-
 class Vacancy():
-    def __init__(self, dict_from_api):
-        self.name = dict_from_api['objects'][0]['profession']
-        self.url = dict_from_api['objects'][0]['client']['link']
-        self.salary = [dict_from_api['objects'][0]['payment_from'], dict_from_api['objects'][0]['payment_to']]
-        self.info = dict_from_api['objects'][0]['candidat']
-        self.published_time = dict_from_api['objects'][0]['date_published']
-        self.town = dict_from_api['objects'][0]['town']['tittle']
+    def __init__(self, vac_dict):
+        self.name = vac_dict['profession']
+        self.url = vac_dict['client']['link']
+        self.salary = vac_dict['payment_from'], vac_dict['payment_to']
+        self.info = vac_dict['candidat']
+        self.published_time = vac_dict['date_published']
+        self.town = vac_dict['town']['tittle']
+
+    @classmethod
+    def create_vacancy_from_dict(cls, vac_dict):
+        for vac in vac_dict:
+            cls(vac)
