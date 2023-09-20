@@ -1,7 +1,5 @@
 import requests
-import json
 from abc import ABC, abstractmethod
-from class_to_file import SaveToJSONFile
 import os
 
 
@@ -15,7 +13,7 @@ class BaseAPI(ABC):
         pass
 
 
-class HeadHunterAPI(BaseAPI, SaveToJSONFile):
+class HeadHunterAPI(BaseAPI):
     """
     Класс для работы с API сайта www.headhunter.ru
     """
@@ -25,7 +23,6 @@ class HeadHunterAPI(BaseAPI, SaveToJSONFile):
         Создание экземпляра класса сайта https://api.hh.ru/vacancies
         """
         self.url_address = 'https://api.hh.ru/vacancies'
-        SaveToJSONFile.__init__(self)
 
     def get_vacancies(self) -> dict:
         """
@@ -33,12 +30,12 @@ class HeadHunterAPI(BaseAPI, SaveToJSONFile):
 
         :return данные в формате словаря
         """
-        response = requests.get(self.url_address)  # headers={'HH-User-Agent': 'MyApp/1.0 (my-app-feedback@example.com)'})
-        vacancies_dict = json.loads(response.text)
-        return vacancies_dict
+        response = requests.get(self.url_address, params={'per_page': 100, 'area': 1, 'text': 'Python', 'period': 7})
+        vacancies_dict = response.json()
+        return vacancies_dict['items']
 
 
-class SuperJobAPI(BaseAPI, SaveToJSONFile):
+class SuperJobAPI(BaseAPI):
     """
     Класс для работы с API сайта www.superjob.ru
     """
@@ -50,7 +47,6 @@ class SuperJobAPI(BaseAPI, SaveToJSONFile):
         Создание экземпляра класса сайта https://api.superjob.ru/2.0/vacancies/
         """
         self.url_address = 'https://api.superjob.ru/2.0/vacancies/'
-        SaveToJSONFile.__init__(self)
 
     def get_vacancies(self) -> dict:
         """
@@ -60,6 +56,6 @@ class SuperJobAPI(BaseAPI, SaveToJSONFile):
         """
         response = requests.get(self.url_address,
                                 headers={'X-Api-App-Id': self.SJ_API_KEY},
-                                params={'count': 100, 'town': 'Москва', 'keywords': 'Python'})
-        vacancies_dict = json.loads(response.text)
+                                params={'count': 100, 'town': 'Москва', 'keywords': 'Python', 'period': 7})
+        vacancies_dict = response.json()
         return vacancies_dict['objects']

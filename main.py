@@ -1,15 +1,29 @@
-from class_api import SuperJobAPI
+from class_api import SuperJobAPI, HeadHunterAPI
 from class_vacancies import Vacancy
+from class_to_file import SaveToJSONFile
 import json
 
 # создание экземпляра для работы с API сайта superjob.ru
 sj_api = SuperJobAPI()
-
+# файл для сохранения вакансий с сайта superjob.ru
+sj_json_path = 'sj_all_vacancies.json'
+# создание экземпляра для сохранения вакансий sj.ru в файл
+sj_save_all_vac = SaveToJSONFile(sj_json_path)
 # получение вакансий связанных с Python
 sj_vacancies = sj_api.get_vacancies()
+# сохранение всех вакансий sj.ru в файл
+sj_save_all_vac.save_to_file(sj_vacancies)
 
-# сохранение всех полученных вакансий в файл для дальнейшей обработки пользователем
-sj_api.save_to_file(sj_vacancies)
+# создание экземпляра для работы с API сайта headhunter.ru
+hh_api = HeadHunterAPI()
+# файл для сохранения вакансий с сайта headhunter.ru
+hh_json_path = 'hh_all_vacancies.json'
+# создание экземпляра для сохранения вакансий hh.ru в файл
+hh_save_all_vac = SaveToJSONFile(hh_json_path)
+# получение вакансий связанных с Python
+hh_vacancies = hh_api.get_vacancies()
+# сохранение всех вакансий hh.ru в файл
+hh_save_all_vac.save_to_file(hh_vacancies)
 
 
 def user_interaction():
