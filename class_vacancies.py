@@ -16,7 +16,7 @@ class Vacancy:
         self.published_time = vacancy_dict['published_time']
         self.town = vacancy_dict['town']
 
-    def _str__(self):
+    def __str__(self):
         return f'''Вакансия - {self.name},
 Сводная информация - {self.info}
 Зарплата - {self.salary_from} - {self.salary_to}
@@ -25,21 +25,35 @@ class Vacancy:
 Ссылка - {self.url}
 '''
 
-    def __le__(self, other: int):
+    def check_salary(self, salary: int) -> bool:
         """
         Метод для сравнения зарплаты вакансии
-        :param other: требуемое значение зарплаты
-        :return: True, если наивысшее из значений зарплаты вакансии меньше требуемой
-        """
-        return max(self.salary_from, self.salary_to) <= other
-
-    def __ge__(self, other: int):
-        """
-        Метод для сравнения зарплаты вакансии
-        :param other: требуемое значение зарплаты
+        :param salary: сравниваемое значение зарплаты
         :return: True, если наивысшее из значений зарплаты вакансии больше требуемой
         """
-        return max(self.salary_from, self.salary_to) >= other
+        if isinstance(self.salary_from, int) and isinstance(self.salary_to, int):
+            return max(self.salary_from, self.salary_to) >= salary
+        elif isinstance(self.salary_from, int) or isinstance(self.salary_to, int):
+            if isinstance(self.salary_from, int):
+                return self.salary_from >= salary
+            else:
+                return self.salary_to >= salary
+
+    # def __le__(self, other):
+    #     """
+    #     Метод для сравнения зарплаты вакансии
+    #     :param other: требуемое значение зарплаты
+    #     :return: True, если наивысшее из значений зарплаты вакансии меньше требуемой
+    #     """
+    #     return max(self.salary_from, self.salary_to) <= other
+    #
+    # def __ge__(self, other):
+    #     """
+    #     Метод для сравнения зарплаты вакансии
+    #     :param other: требуемое значение зарплаты
+    #     :return: True, если наивысшее из значений зарплаты вакансии больше требуемой
+    #     """
+    #     return max(self.salary_from, self.salary_to) >= other
 
     @classmethod
     def create_vacancy_from_hh(cls, vac_dic_hh):

@@ -27,9 +27,16 @@ class SaveToJSONFile(SaveToFile):
     def save_to_file(self, data_dict: dict) -> None:
         """
         Функция сохраняет выбранный словарь в json-файл
-
         :param data_dict: словарь с данными в формате json
-        :return: запись данных в файл 'all_vacancies.json'
+        :return: запись данных в указанный файл
         """
         with open(self.path, 'w', encoding='utf-8') as json_file:
             return json.dump(data_dict, json_file, indent=4)
+
+    def load_file(self):
+        """
+        Функция для чтения выбранного json-файла
+        :return: считанные данные в формате json
+        """
+        with open(self.path, 'r', encoding='utf-8') as json_file:
+            return json.load(json_file)
